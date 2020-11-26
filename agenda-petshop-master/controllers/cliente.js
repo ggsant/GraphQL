@@ -1,5 +1,6 @@
 const Operations = require('../infraestrutura/operations')
 
+
 const Clientes = new Operations('cliente')
 
 module.exports = app => {
