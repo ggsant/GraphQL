@@ -4,6 +4,7 @@ const Tabelas = require('./infraestrutura/database/tabelas')
 
 const app = customExpress()
 
+//* faz a conexão ao bd
 conexao.connect(erro => {
   if (erro) {
     console.log(erro)

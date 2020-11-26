@@ -3,6 +3,7 @@ const Operations = require('../infraestrutura/operations')
 const Clientes = new Operations('cliente')
 
 module.exports = app => {
+  //* res - requisição / res - resposta
   app.get('/clientes', (req, res) => {
     Clientes.lista(res)
   })
