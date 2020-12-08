@@ -1,10 +1,8 @@
-// const customExpress = require('./config/custom-express')
 const { GraphQLServer } = require('graphql-yoga')
 const conexao = require('./infraestrutura/conexao')
 const Tabelas = require('./infraestrutura/database/tabelas')
 const Operacoes = require('./infraestrutura/operations')
 
-// const app = customExpress()
 
 //* faz a conexão ao bd
 conexao.connect(erro => {
@@ -21,10 +19,19 @@ const Clientes = new Operacoes('cliente')
 
 const resolvers = {
   Query: {
-    status: () => 'Servidor rodando' // ele nao aceita uma string sozinha, tem que passar um obj ou função / call back
-  },
+    status: () => "Servidor rodando!",
+    clientes: () => Clientes.lista(),
+    cliente: ({ id }) => Clientes.buscaPorId(id),
+    pets: () => Pets.lista(),
+    pet: ({ id }) => Pets.buscaPorId(id)
+},
   Mutation: {
-    adicionarCliente: (root, params) => Clientes.adiciona(params),
+    adicionarCliente: (params) => Clientes.adiciona(params),
+    atualizarCliente: (params) => Clientes.atualiza(params),
+    deletarCliente: ({ id }) => Clientes.deleta(id),
+    adicionarPet: (params) => Pets.adiciona(params),
+    atualizarPet: (params) => Pets.atualiza(params),
+    deletarPet: ({ id }) => Pets.deleta(id)
   }
 }
 const servidor = new GraphQLServer({
@@ -32,10 +39,8 @@ const servidor = new GraphQLServer({
   resolvers,
   typeDefs: './schema.graphql'
   
-}) // criado o servidor
+}) // cria o servidor
 
 servidor.start(() => console.log('servidor ouvindo....')) // iniciar o servidor
 
-// app.listen(4000, () => {
-//   console.log('Servidor rodando na porta 4000')
-// })
+
